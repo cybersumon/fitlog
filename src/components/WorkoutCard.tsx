@@ -1,4 +1,6 @@
 import { Workout } from '@/types/Workout';
+import Image from 'next/image';
+import Link from 'next/link';
 
 type WorkoutCardProps = {
     workout: Workout;
@@ -7,7 +9,22 @@ type WorkoutCardProps = {
 
 const WorkoutCard = ({workout}: WorkoutCardProps ) => {
     return (
+
+        <Link href={`/workouts/${workout.id}`} className='block'>
+
+        
 <article className="rounded-xl border border-white/10 bg-[#1e2023] p-5">
+<div className="relative mb-4 h-52 w-full overflow-hidden rounded-lg">
+    <Image
+    src={workout.image}
+    alt={workout.name}
+    fill
+    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw,33vw"
+    className="object-cover"
+    />
+
+
+</div>
 <div className="flex flex-wrap gap-2">
     {workout.muscleGroups.map((group) => (
         <span 
@@ -39,7 +56,7 @@ const WorkoutCard = ({workout}: WorkoutCardProps ) => {
 </div>
 
 </article>
-
+</Link>
 
     )
 };
