@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
+import EmptyState from './EmptyState';
 
 const PlanTabs = () => {
     const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
@@ -29,11 +30,12 @@ Saved
             
         </div>
         <div className='py-8'>
-            {activeTab === "today"?(
+            {/* {activeTab === "today"?(
                 <p className='text-gray-400'>Today&apos;s Plan content goes here.
-
                 </p>
-                ):(<p className='text-gray-400'>Saved content goes here.</p>)}
+                ):(<p className='text-gray-400'>Saved content goes here.</p>)} */}
+
+                <EmptyState tab={activeTab} />
 
         </div>
         </section>
