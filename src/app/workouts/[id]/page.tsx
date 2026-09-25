@@ -1,3 +1,4 @@
+import WorkoutInstructions from "@/components/WorkoutInstructions";
 import WorkoutSpecs from "@/components/WorkoutSpecs";
 import { notFound } from "next/navigation";
 import type { Workout } from "@/types/Workout";
@@ -55,6 +56,7 @@ const WorkoutDetailsPage = async ({params}: WorkoutDetailsPageProps ) => {
              {workout.description} 
         </p>
         <WorkoutSpecs workout={workout} />
+        <WorkoutInstructions instructions={workout.instructions} />
     </div>
     </div>
 </main>
