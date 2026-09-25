@@ -3,6 +3,9 @@ import WorkoutSpecs from "@/components/WorkoutSpecs";
 import { notFound } from "next/navigation";
 import type { Workout } from "@/types/Workout";
 import Image from "next/image";
+import WorkoutActions from "@/components/WorkoutActions";
+
+
 type WorkoutDetailsPageProps = {
     params: Promise<{id: string}>;
 };
@@ -57,6 +60,7 @@ const WorkoutDetailsPage = async ({params}: WorkoutDetailsPageProps ) => {
         </p>
         <WorkoutSpecs workout={workout} />
         <WorkoutInstructions instructions={workout.instructions} />
+        <WorkoutActions workoutId={workout.id}/>
     </div>
     </div>
 </main>
