@@ -1,6 +1,6 @@
 "use client";
 
-
+import { usePlan } from '@/context/PlanContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,7 +9,7 @@ import Logo from "../assets/logo.png"
 
 const Navbar = () => {
     const pathname = usePathname();
-
+const {planIds, savedIds} = usePlan();
     const isWorkoutPage = pathname === "/" || pathname.startsWith("/workouts");
     const isMyPlanPage = pathname === "/my-plan";
 
@@ -38,13 +38,13 @@ const Navbar = () => {
                     <Link href="/my-plan" className="flex items-center gap-2">
                         Plan
                         <span className="rounded-full bg-[#ccff00] px-2 py-1 text-black">
-                            0
+                            {planIds.length}
                         </span>
                     </Link>
                     <Link href="/my-plan" className="flex items-center gap-2">
                         Saved
                         <span className="rounded-full border border-white/40 px-2 py-1 ">
-                            0
+                            {savedIds.length}
                         </span>
                     </Link>
                 </div>
