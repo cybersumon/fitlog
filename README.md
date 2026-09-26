@@ -25,7 +25,7 @@ Fitlog is a responsive workout library and daily traning planner.Browse exercise
 
 ## Run Locally
 
-...Bash
+```Bash
 npm install
 npm run dev
 
