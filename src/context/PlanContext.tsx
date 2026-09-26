@@ -9,6 +9,8 @@ planIds: number[];
 savedIds: number[];
 addToPlan: (id:number) => boolean;
 saveWorkout: (id: number) => boolean;
+removeFromPlan:(id:number) => void;
+removeFromSaved: (id:number) => void;
 
 };
 const PlanContext = createContext<PlanContextType | null> (null);
@@ -29,12 +31,21 @@ const saveWorkout = (id: number) => {
 
     setSavedIds((current) =>  [...current, id]);
     return true;
+
 };
+
+const removeFromPlan = (id:number) => {
+    setPlanIds((current) => current.filter((itemId) => itemId !==id));
+};
+
+const removeFromSaved = (id:number) => {
+    setSavedIds((current) => current.filter((itemId) => itemId !==id));
+}
 
 
 return (
 <PlanContext.Provider
-value={{planIds,savedIds,addToPlan,saveWorkout}}>
+value={{planIds,savedIds,addToPlan,saveWorkout,removeFromPlan,removeFromSaved}}>
 {children}
 
 

@@ -1,9 +1,11 @@
 "use client"
 
+import MetricCard from './MetricCard';
 import React, {useEffect, useState } from 'react';
 import EmptyState from './EmptyState';
 import { usePlan } from '@/context/PlanContext';
 import type { Workout } from '@/types/Workout';
+import PlanWorkoutCard from './PlanWorkoutCard';
 
 const PlanTabs = () => {
     const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
@@ -38,12 +40,31 @@ const visibleWorkouts = workouts.filter((workout) =>
     selectedIds.includes(workout.id)
 );
 
+const plannedWorkouts = workouts.filter((workout) =>
+planIds.includes(workout.id)
+);
+
+const totalMinuts = plannedWorkouts.reduce(
+    (total, workout) => total + workout.duration,
+    0
+);
+
+const totalCalories = plannedWorkouts.reduce(
+    (total, workout) => total + workout.caloriesBurned,
+    0
+);
 
 
 
 
     return (
         <section className='mt-10'>
+            <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <MetricCard label="Exercises" value={plannedWorkouts.length} />
+                <MetricCard label="Minuts" value={totalMinuts} />
+                <MetricCard label="Calories" value={totalCalories} />
+
+            </div>
         <div className='flex gap-6 border-b border-white/15'>
         <button type='button' onClick={() => setActiveTab("today")}
             className={`cursor-pointer border-b-2 pb-3 ${
@@ -72,14 +93,7 @@ Saved
             ) : (
                 <ul className="space-y-3">
                     {visibleWorkouts.map((workout) =>(
-                      <li 
-                      key={workout.id}
-                      className="rounded-xl border border-white/10 bg-[#1e2023] p-5 font-bold text-white"
-
-                      >
-                        {workout.id}
-
-                      </li>  
+                   <PlanWorkoutCard key={workout.id} workout={workout} />
                     ))}
 
 
