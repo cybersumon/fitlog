@@ -1,5 +1,5 @@
 "use client"
-
+import Toast from './Toast';
 import MetricCard from './MetricCard';
 import React, {useEffect, useState } from 'react';
 import EmptyState from './EmptyState';
@@ -9,10 +9,11 @@ import PlanWorkoutCard from './PlanWorkoutCard';
 
 const PlanTabs = () => {
     const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
+    const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating" > ("duration");
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-
+const [toastMessage, setToastMessage ] = useState("");
     const {planIds, savedIds} = usePlan();
 
 useEffect(() => {
@@ -40,6 +41,12 @@ const visibleWorkouts = workouts.filter((workout) =>
     selectedIds.includes(workout.id)
 );
 
+const sortedWorkouts = [...visibleWorkouts].sort((a, b) =>{
+    if(sortBy === "calories") return a.caloriesBurned - b.caloriesBurned;
+    if(sortBy === "rating") return b.rating - a.rating;
+    return a.duration -b.duration;
+});
+
 const plannedWorkouts = workouts.filter((workout) =>
 planIds.includes(workout.id)
 );
@@ -54,7 +61,11 @@ const totalCalories = plannedWorkouts.reduce(
     0
 );
 
+const showToast = (message:string) => {
+    setToastMessage(message);
+    window.setTimeout(() => setToastMessage(""), 3000);
 
+};
 
 
     return (
@@ -81,6 +92,26 @@ const totalCalories = plannedWorkouts.reduce(
 Saved
         </button>         
         </div>
+        <div className='mt-6 flex justify-end'>
+            <select
+            aria-label='Sort By'
+            value={sortBy}
+            onChange={(e) =>
+                setSortBy(e.target.value as "duration" | "calories" | "rating")
+
+
+            }
+            className='rounded-lg border border-white/20 bg-[#1e2023] px-4 py-2 text-white'
+
+            
+            >
+                <option value="duration">Duration</option>
+                <option value="calories">Calories</option>
+                <option value="rating">Rating</option>
+
+            </select>
+
+        </div>
         <div className='py-8'>
             {loading ?(
                <p className="animate-pulse text-gray-400"> Loading Workouts...
@@ -92,8 +123,8 @@ Saved
                 <EmptyState tab={activeTab} />
             ) : (
                 <ul className="space-y-3">
-                    {visibleWorkouts.map((workout) =>(
-                   <PlanWorkoutCard key={workout.id} workout={workout} tab= {activeTab}/>
+                    {sortedWorkouts.map((workout) =>(
+                   <PlanWorkoutCard key={workout.id} workout={workout} tab= {activeTab} onNotify={showToast } />
                     ))}
 
 
@@ -101,6 +132,7 @@ Saved
             )}
            
         </div>
+        <Toast message={toastMessage} />
         </section>
     );
 };

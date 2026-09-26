@@ -1,7 +1,7 @@
 "use client";
 
 
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useState, useEffect} from "react";
 import type { ReactNode } from "react";
 
 type PlanContextType = {
@@ -21,6 +21,41 @@ export const PlanProvider = ({children}: {children: ReactNode}) => {
     const [planIds, setPlanIds] = useState<number[]>([]);
     const [savedIds, setSavedIds] = useState<number[]>([]);
     const [doneIds, setDoneIds] = useState<number[]>([]);
+    const [storageReady, setStorageReady] = useState(false);
+
+    useEffect(() => {
+        const timer = window.setTimeout(() => {
+           try {
+            const storedPlan = JSON.parse(localStorage.getItem("fitlog-plan") || "[]" );
+            const storedSaved = JSON.parse(localStorage.getItem("fitlog-saved") || "[]" );
+            const storedDone = JSON.parse(localStorage.getItem("fitlog-done") || "[]" );
+
+            if (Array.isArray(storedPlan)) setPlanIds(storedPlan);
+            if (Array.isArray(storedSaved)) setSavedIds(storedSaved);
+            if (Array.isArray(storedDone)) setDoneIds(storedDone);
+
+        } catch {
+
+        }
+        setStorageReady(true);
+            
+
+
+        },0);
+        return () => window.clearTimeout(timer);
+        
+        
+    
+    },[]);
+
+    useEffect(() => {
+            if (!storageReady) return;
+
+            localStorage.setItem("fitlog-plan",JSON.stringify(planIds));
+            localStorage.setItem("fitlog-saved",JSON.stringify(savedIds));
+            localStorage.setItem("fitlog-done",JSON.stringify(doneIds));
+
+        }, [planIds,savedIds,doneIds,storageReady]);
 
 
     const addToPlan = (id:number) => {

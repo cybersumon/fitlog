@@ -7,9 +7,10 @@ import Toast from "./Toast";
 type WorkoutActionsProps = {
 
     workoutId: number;
+    workoutName: string;
 };
 
-const WorkoutActions = ({workoutId}:WorkoutActionsProps ) => {
+const WorkoutActions = ({workoutId, workoutName}:WorkoutActionsProps ) => {
     const {planIds, savedIds, addToPlan, saveWorkout} = usePlan();
     const [message, setMessage] = useState("");
     const showToast = (text:string) => {
@@ -21,7 +22,7 @@ const WorkoutActions = ({workoutId}:WorkoutActionsProps ) => {
         const added = addToPlan(workoutId);
 
         if (added){
-            showToast("Today's plan can hold only 5 workouts");
+            showToast(`${workoutName}added to today's plan`);
 
         }
     };

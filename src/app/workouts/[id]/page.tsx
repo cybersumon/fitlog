@@ -60,7 +60,9 @@ const WorkoutDetailsPage = async ({params}: WorkoutDetailsPageProps ) => {
         </p>
         <WorkoutSpecs workout={workout} />
         <WorkoutInstructions instructions={workout.instructions} />
-        <WorkoutActions workoutId={workout.id}/>
+        <WorkoutActions workoutId={workout.id}
+        workoutName={workout.name}
+        />
     </div>
     </div>
 </main>

@@ -11,9 +11,10 @@ import Link from "next/link";
 type PlanWorkoutCardProps = {
     workout:Workout;
     tab:"today" | "saved";
+    onNotify: (message: string) => void;
 };
 
-const PlanWorkoutCard = ({workout, tab }: PlanWorkoutCardProps ) => {
+const PlanWorkoutCard = ({workout, tab ,onNotify }: PlanWorkoutCardProps ) => {
     const { removeFromPlan, removeFromSaved, markAsDone} = usePlan();
     const handleRemove = () => {
         if (tab === "today"){
@@ -21,6 +22,7 @@ const PlanWorkoutCard = ({workout, tab }: PlanWorkoutCardProps ) => {
         } else {
             removeFromSaved(workout.id);
         }
+        onNotify("Workout Removed");
     };
     return (
         <li className="flex flex-col gap-5 rounded-xl border border-white/10 bg-[#1e2023] p-4 sm:flex-row">
@@ -59,7 +61,10 @@ const PlanWorkoutCard = ({workout, tab }: PlanWorkoutCardProps ) => {
 {tab === "today" && (
     <button
     type="button"
-    onClick={() => markAsDone(workout.id)}
+    onClick={() => { 
+        markAsDone(workout.id);
+        onNotify("Workout mark as done")
+    }}
     className="ml-3 mt-3 cursor-pointer rounded-full bg-[#ccff00] px-4 py-2 text-sm font-semibold text-black" 
     >
 

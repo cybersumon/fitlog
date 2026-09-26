@@ -9,10 +9,17 @@ const Toast = ({message}: ToastProps ) => {
     return (
         <div
         role = "status"
-        className="fixed bottom-5 right-5 z-50 max-w-sm rounded-lg border border-[#ccff00]/40 bg-[#1e2023] px-5 py-3 text-white shadow-xl "
+        className="toast-enter fixed bottom-5 right-5 z-50 flex max-w-[calc(100vw-2.5rem)] items-center gap-3 rounded-xl border border-[#ccff00]/30 bg-[#252a24] px-5 py-4 text-sm font-medium text-white shadow-2xl shadow-black/40 "
+
 
         >
-            {message}
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#ccff00] font-bold text-black">
+                ✓
+
+            </span>
+            <span>
+                {message}
+                </span>
 
 
         </div>
