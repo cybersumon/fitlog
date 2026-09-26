@@ -93,7 +93,7 @@ Saved
             ) : (
                 <ul className="space-y-3">
                     {visibleWorkouts.map((workout) =>(
-                   <PlanWorkoutCard key={workout.id} workout={workout} />
+                   <PlanWorkoutCard key={workout.id} workout={workout} tab= {activeTab}/>
                     ))}
 
 

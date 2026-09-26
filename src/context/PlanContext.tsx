@@ -7,10 +7,12 @@ import type { ReactNode } from "react";
 type PlanContextType = {
 planIds: number[];
 savedIds: number[];
+doneIds: number[];
 addToPlan: (id:number) => boolean;
 saveWorkout: (id: number) => boolean;
 removeFromPlan:(id:number) => void;
 removeFromSaved: (id:number) => void;
+markAsDone: (id:number) => void;
 
 };
 const PlanContext = createContext<PlanContextType | null> (null);
@@ -18,6 +20,8 @@ const PlanContext = createContext<PlanContextType | null> (null);
 export const PlanProvider = ({children}: {children: ReactNode}) => {
     const [planIds, setPlanIds] = useState<number[]>([]);
     const [savedIds, setSavedIds] = useState<number[]>([]);
+    const [doneIds, setDoneIds] = useState<number[]>([]);
+
 
     const addToPlan = (id:number) => {
 if (planIds.includes(id) || planIds.length >= 5) return false;
@@ -40,12 +44,19 @@ const removeFromPlan = (id:number) => {
 
 const removeFromSaved = (id:number) => {
     setSavedIds((current) => current.filter((itemId) => itemId !==id));
-}
+};
+
+const markAsDone = (id:number) => {
+    setPlanIds((current) => current.filter((itemId) => itemId !==id));
+    setDoneIds((current) => 
+    current.includes(id) ? current : [...current, id]
+);
+};
 
 
 return (
 <PlanContext.Provider
-value={{planIds,savedIds,addToPlan,saveWorkout,removeFromPlan,removeFromSaved}}>
+value={{planIds,savedIds,addToPlan,saveWorkout,removeFromPlan,removeFromSaved, markAsDone,doneIds}}>
 {children}
 
 

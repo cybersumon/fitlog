@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePlan } from "@/context/PlanContext";
+import Toast from "./Toast";
 
 type WorkoutActionsProps = {
 
@@ -11,18 +12,22 @@ type WorkoutActionsProps = {
 const WorkoutActions = ({workoutId}:WorkoutActionsProps ) => {
     const {planIds, savedIds, addToPlan, saveWorkout} = usePlan();
     const [message, setMessage] = useState("");
+    const showToast = (text:string) => {
+        setMessage(text);
+        window.setTimeout(() => setMessage(""), 3000);
+    };
 
     const handleAddToPlan = () => {
         const added = addToPlan(workoutId);
 
         if (added){
-            setMessage("Today's plan can hold only 5 workouts");
+            showToast("Today's plan can hold only 5 workouts");
 
         }
     };
     const handleSave = () => {
         const saved = saveWorkout(workoutId);
-        setMessage(saved ? "Save for later" : "workout already saved");
+        showToast(saved ? "Save for later" : "workout already saved");
     };
 
     return (
@@ -44,11 +49,7 @@ disabled={savedIds.includes(workoutId)}
 
 </button>
             </div>
-            {message && (
-                <p role="status" className="mt-4 text-sm text-[#ccff00]">
-                    {message}
-                    </p>
-            )}
+            <Toast message={message} / >
 
         </div>
     );
