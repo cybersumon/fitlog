@@ -1,9 +1,20 @@
 import Link from 'next/link';
 import React from 'react';
+import HeroImage from '../assets/banner.png'
+import Image from 'next/image';
 
 const NotFound = () => {
     return (
         <main className='flex flex-1 flex-col items-center justify-center bg-[#141619] px-5 text-center text-white'>
+            
+            <div className="relative h-72 w-full md:h-96">
+                <Image
+                src={HeroImage} alt = "Hero Image" fill sizes='(max-width:768px) 100vw, 50vw' className="object-contain"
+                priority
+                />
+
+            </div>
+            
             <p className='text-lg font-bold text-[#ccff00]'> 404
 
             </p>

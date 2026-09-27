@@ -47,16 +47,16 @@ const sortedWorkouts = [...visibleWorkouts].sort((a, b) =>{
     return a.duration -b.duration;
 });
 
-const plannedWorkouts = workouts.filter((workout) =>
-planIds.includes(workout.id)
-);
+// const plannedWorkouts = workouts.filter((workout) =>
+// planIds.includes(workout.id)
+// );
 
-const totalMinuts = plannedWorkouts.reduce(
+const totalMinuts = visibleWorkouts.reduce(
     (total, workout) => total + workout.duration,
     0
 );
 
-const totalCalories = plannedWorkouts.reduce(
+const totalCalories = visibleWorkouts.reduce(
     (total, workout) => total + workout.caloriesBurned,
     0
 );
@@ -71,7 +71,7 @@ const showToast = (message:string) => {
     return (
         <section className='mt-10'>
             <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <MetricCard label="Exercises" value={plannedWorkouts.length} />
+                <MetricCard label="Exercises" value={visibleWorkouts.length} />
                 <MetricCard label="Minuts" value={totalMinuts} />
                 <MetricCard label="Calories" value={totalCalories} />
 
